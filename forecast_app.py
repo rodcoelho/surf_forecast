@@ -1,31 +1,16 @@
 import requests
 import json
 from bs4 import BeautifulSoup
+from pick import pick
 
 WWOurl = 'http://api.worldweatheronline.com/premium/v1/marine.ashx?key=2070915380d345728e5133011171008&q=37.75,-122.51&format=json&includelocation=yes&tide=yes&tp=6'
 key = '2070915380d345728e5133011171008'
 
-r = requests.get(WWOurl)
-text = r.json()
-#how to get data from variable text
-x = text["data"]["request"][0]["query"]
-print(x)
-
-
-
-
-
-
-decision_question = "Where would you like to surf?"
-pickRegion = ('British Columbia', 'Pacific Northwest', 'Northern California', 'Central California',
-        'Southern California', 'Eastern Canada', 'Great Lakes', 'New England', 'Long Island',
-        'Mid Atlantic', 'Virginia - Outer Banks', 'Southeast', 'Florida' , 'Florida Gulf',
-        'Gulf States', 'Texas', 'Kauai', 'Oahu', 'Maui', 'Big Island Hawaii', 'Lanai',
-        'Molokai', 'Northern Baja', 'Southern Baja', 'Northern Mexico', 'Southern Mexico'
-     )
-
-
-
+# r = requests.get(WWOurl)
+# text = r.json()
+# #how to get data from variable text
+# x = text["data"]["request"][0]["query"]
+# print(x)
 
 spotLocation_NorthAmerica = {
     'United States' : {
@@ -112,7 +97,6 @@ spotLocation_NorthAmerica = {
                 'Ano Nuevo': ['http://www.surfline.com/surf-forecasts/spot/ano-nuevo_5020/']
             }
         },
-
         'Central California': {
             'Santa Cruz': {
                 'Waddell' : ['http://www.surfline.com/surf-forecasts/spot/waddell-creek_5021/', '37.09,-122.27'],
@@ -340,8 +324,7 @@ spotLocation_NorthAmerica = {
                 'Imperial Pier SS': ['http://www.surfline.com/surf-forecasts/spot/imperial-pier-southside_4256/'],
                 'Tijuana Slough': ['http://www.surfline.com/surf-forecasts/spot/tijuana-slough_4814/']
             }
-            }
-        },
+            },
         'New England': {
             'New Hampshire - Maine': {
                 'Acadia National': ['http://www.surfline.com/surf-forecasts/spot/acadia-national-park_110639/'],
@@ -537,36 +520,22 @@ spotLocation_NorthAmerica = {
                 'Summerplace Drive': ['http://www.surfline.com/surf-forecasts/spot/summerplace-dr_145175/']
             }
         }
-    }
+    }}
 
 
+decision_question = "Where would you like to surf?"
+pickRegion = spotLocation_NorthAmerica['United States'].keys()
+regionDecision = pick(pickRegion,decision_question)
 
-spot = spotLocation_NorthAmerica[pickRegion]
+decision_question2 = "What region?"
+pickSubRegion = spotLocation_NorthAmerica['United States'][regionDecision[0]].keys()
+subregionDecision = pick(pickSubRegion, decision_question2)
 
-def user_pick():
+decision_question3 = "What spot?"
+pickSubSubRegion = spotLocation_NorthAmerica['United States'][regionDecision[0]][subregionDecision[0]].keys()
+subsubregionDecision = pick(pickSubSubRegion,decision_question3)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print(subsubregionDecision)
 
 
 
